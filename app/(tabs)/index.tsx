@@ -1,98 +1,128 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, StatusBar, SafeAreaView, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router'; // <--- 1. IMPORTAR ROUTER
+import { COLORS } from '@/constants/theme';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+// Importamos los componentes
+import { AmenityCard, AmenityItem } from '@/components/amenities/AmenityCard';
+import { CategoryFilter } from '@/components/ui/CategoryTabs';
+import { HeroSearch } from '@/components/ui/SearchBar';
+import { DashboardHeader } from '@/components/ui/DashboardHeader';
 
-export default function HomeScreen() {
+// MOCK DATA
+const CATEGORIES = ['Todos', 'Wellness', 'Deportes', 'Social', 'Coworking'];
+const AMENITIES: AmenityItem[] = [
+  {
+    id: '1',
+    title: 'Alberca Infinita',
+    location: 'Roof Garden • Torre A',
+    status: 'available',
+    nextSlot: '14:00',
+    rating: 4.9,
+    image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2070&auto=format&fit=crop',
+  },
+  {
+    id: '2',
+    title: 'Gimnasio Smart',
+    location: 'Planta Baja',
+    status: 'busy',
+    nextSlot: '16:30',
+    rating: 4.8,
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
+  },
+  {
+    id: '3',
+    title: 'Cancha de Pádel',
+    location: 'Zona Deportiva',
+    status: 'available',
+    nextSlot: 'Ahora',
+    rating: 5.0,
+    image: 'https://images.unsplash.com/photo-1626248590666-65714df35d25?q=80&w=1502&auto=format&fit=crop',
+  },
+];
+
+export default function UnifiedAmenitiesScreen() {
+  const router = useRouter(); // <--- 2. INICIALIZAR ROUTER
+  const [activeCategory, setActiveCategory] = useState('Todos');
+  const [searchText, setSearchText] = useState('');
+
+  // Función para navegar
+  const handleNavigation = (id: string) => {
+    // Esto asume que crearás el archivo en app/amenity/[id].tsx
+    router.push(`../amenity/${id}`); 
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.background.base} />
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      {/* --- SECCIÓN SUPERIOR (DARK) --- */}
+      <View style={styles.topSection}>
+        <SafeAreaView>
+          <DashboardHeader 
+            avatarUrl="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+            onMenuPress={() => console.log('Open Menu')}
+          />
+          
+          <HeroSearch 
+            title={`Explora tus\nEspacios`}
+            searchValue={searchText}
+            onSearchChange={setSearchText}
+          />
+        </SafeAreaView>
+      </View>
+
+      {/* --- SECCIÓN INFERIOR (LIGHT SHEET) --- */}
+      <View style={styles.bottomSheet}>
+         <ScrollView 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollContent}
+         >
+            <CategoryFilter 
+                categories={CATEGORIES}
+                activeCategory={activeCategory}
+                onSelectCategory={setActiveCategory}
+            />
+
+            <View style={styles.listContainer}>
+                {AMENITIES.map((item) => (
+                    <AmenityCard 
+                        key={item.id} 
+                        item={item} 
+                        // <--- 3. USAR LA NAVEGACIÓN
+                        onPress={() => handleNavigation(item.id)}
+                    />
+                ))}
+            </View>
+
+         </ScrollView>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background.base,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  topSection: {
+    backgroundColor: COLORS.background.base,
+    paddingBottom: 24, 
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  bottomSheet: {
+    flex: 1,
+    backgroundColor: COLORS.ui.lightSheet,
+    borderTopLeftRadius: 36,
+    borderTopRightRadius: 36,
+    overflow: 'hidden',
+  },
+  scrollContent: {
+    paddingTop: 24,
+    paddingBottom: 40,
+  },
+  listContainer: {
+    paddingHorizontal: 24,
+    gap: 24,
   },
 });
