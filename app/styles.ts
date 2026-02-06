@@ -1,159 +1,175 @@
-import { StyleSheet } from 'react-native';
-import { COLORS, DIMENSIONS, THEME } from '@/constants/theme'; 
+import { StyleSheet, Dimensions } from 'react-native';
+import { COLORS } from '@/constants/theme'; 
+
+const { width, height } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
-  mainContainer: {
+  container: {
     flex: 1,
-    backgroundColor: COLORS.background.base,
+    backgroundColor: COLORS.ui.white,
   },
-  baseBackground: {
+  
+  // --- FONDO ---
+  fixedBackground: {
     position: 'absolute',
-    width: DIMENSIONS.width,
-    height: DIMENSIONS.height,
-    backgroundColor: COLORS.background.base,
+    top: 0,
+    left: 0,
+    right: 0,
+    height: height * 0.55,
   },
-  topOrb: {
-    position: 'absolute',
-    top: -100,
-    left: -100,
-    width: DIMENSIONS.width * 1.2,
-    height: DIMENSIONS.width * 1.2,
-    borderRadius: DIMENSIONS.width,
-    transform: [{ scaleX: 1.5 }],
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
   },
-  bottomOrb: {
-    position: 'absolute',
-    bottom: -150,
-    right: -50,
-    width: DIMENSIONS.width,
-    height: DIMENSIONS.width,
-    borderRadius: DIMENSIONS.width / 2,
+  backgroundOverlay: {
+    ...StyleSheet.absoluteFillObject,
   },
-  orbGradient: {
-    flex: 1,
-    opacity: 0.5,
+
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
   },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: 'center',
+
+  // --- BOTTOM SHEET (Más limpio) ---
+  bottomSheet: {
+    backgroundColor: COLORS.ui.white,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingHorizontal: 32, // Más margen lateral para aire
+    paddingTop: 48,
+    paddingBottom: 40,
+    minHeight: height * 0.65,
+    // Sombra muy difusa y suave (casi invisible)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -5 },
+    shadowOpacity: 0.05, 
+    shadowRadius: 15,
+    elevation: 5,
   },
-  header: {
-    marginBottom: 40,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 14,
-    flexDirection: 'row',
-  },
-  logo: {
-    width: 60, // Ajustado ligeramente para mejor proporción
-    height: 60,
-    opacity: 0.9,
+
+  // --- HEADER ---
+  headerSection: {
+    marginBottom: 36,
   },
   title: {
-    fontSize: 32, // Ajustado para que no rompa en pantallas pequeñas
-    color: COLORS.text.title,
-    letterSpacing: -1,
-    marginBottom: 4,
-    fontWeight: '700', // Más peso para legibilidad
+    fontSize: 30, // Un poco más pequeño que antes, más elegante
+    fontWeight: '700',
+    color: COLORS.light.textPrimary,
+    marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
-    color: COLORS.text.subtitle,
-    letterSpacing: 0.2,
+    color: COLORS.light.textSecondary,
     fontWeight: '400',
   },
-  glassForm: {
-    gap: 20,
+
+  // --- FORMULARIO ---
+  formContainer: {
+    gap: 24, // Mayor separación entre inputs
   },
-  inputWrapper: {
-    backgroundColor: COLORS.background.glass,
-    borderWidth: 1,
-    borderColor: COLORS.border.subtle,
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-  },
-  inputWrapperActive: {
-    borderColor: COLORS.brand.teal,
-    backgroundColor: COLORS.background.glassActive,
-  },
-  inputWrapperError: {
-    borderColor: COLORS.status.error,
-  },
-  inputLabel: {
-    fontSize: 12,
-    color: COLORS.text.label,
-    marginBottom: 4,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  inputInner: {
+
+  // INPUTS MINIMALISTAS
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    // Fondo muy sutil (Gris Slate 50)
+    backgroundColor: '#F8FAFC', 
+    height: 56, // Altura estándar cómoda
+    borderRadius: 16, // Curva suave
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#E2E8F0', // Borde gris muy claro por defecto
   },
-  input: {
+  inputContainerActive: {
+    backgroundColor: '#FFFFFF',
+    borderColor: COLORS.brand.teal, // Solo cambia el color del borde
+    // Sin sombra pesada, solo el borde indica foco
+  },
+  
+  inputIcon: {
+    marginRight: 14,
+    // El icono ya no tiene fondo, flota libremente
+  },
+
+  textInput: {
     flex: 1,
+    height: '100%',
     fontSize: 16,
-    color: COLORS.text.input, // Texto blanco/claro sobre fondo oscuro
-    padding: 0,
-    // height: 24, // Quitado para evitar recortes en fuentes grandes
+    color: COLORS.light.textPrimary,
+    fontWeight: '500',
   },
-  actionRow: {
+  eyeButton: {
+    padding: 8,
+  },
+
+  // --- OPCIONES ---
+  optionsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: -8,
-  },
-  errorText: {
-    color: COLORS.status.error,
-    fontSize: 13,
-    fontWeight: '500',
-    flexShrink: 1,
-  },
-  forgotText: {
-    color: COLORS.brand.teal,
-    fontSize: 13,
-    fontWeight: '600',
+    marginTop: 4,
   },
   rememberRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    gap: 6,
   },
-  rememberText: {
-    color: COLORS.text.subtitle,
+  optionText: {
     fontSize: 14,
-    marginLeft: 8,
+    color: COLORS.light.textSecondary,
+    fontWeight: '500',
   },
-  submitBtnContainer: {
-    marginTop: 20,
-    borderRadius: 20,
-    overflow: 'hidden',
-    // Usamos las sombras definidas en el tema
+  forgotText: {
+    fontSize: 14,
+    color: COLORS.light.textSecondary, // Gris en lugar de Teal para distraer menos
+    fontWeight: '600',
+  },
+
+  // --- BOTÓN ---
+  buttonContainer: {
+    marginTop: 16,
+    borderRadius: 16,
+    // Sombra reducida drásticamente
     shadowColor: COLORS.brand.teal,
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 15,
-    elevation: 10,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  submitBtnDisabled: {
-    shadowOpacity: 0.05,
+  buttonDisabled: {
+    opacity: 0.7,
+    shadowOpacity: 0,
     elevation: 0,
   },
-  submitBtnGradient: {
-    flexDirection: 'row',
+  buttonGradient: {
+    height: 56,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
-    paddingVertical: 18,
   },
-  submitBtnText: {
-    color: COLORS.text.inverse,
-    fontSize: 16,
+  buttonText: {
+    color: '#fff',
+    fontSize: 16, // Texto un poco más discreto
     fontWeight: '700',
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
+  },
+
+  // --- FOOTER ---
+  footer: {
+    marginTop: 40,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footerText: {
+    color: COLORS.light.textSecondary,
+    fontSize: 14,
+  },
+  footerLink: {
+    color: COLORS.brand.teal,
+    fontSize: 14,
+    fontWeight: '700',
+    marginLeft: 4,
   },
 });

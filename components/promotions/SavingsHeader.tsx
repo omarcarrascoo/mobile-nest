@@ -6,8 +6,8 @@ import { COLORS } from '@/constants/theme';
 export const SavingsHeader = () => (
   <View style={styles.container}>
     <View>
-      <Text style={styles.label}>Tu ahorro este mes</Text>
-      <Text style={styles.amount}>$1,250.00</Text>
+      <Text style={styles.label}>Ahorra en promociones</Text>
+      <Text style={styles.amount}>Cupones</Text>
     </View>
     <TouchableOpacity style={styles.myCouponsBtn}>
       <Feather name="tag" size={16} color={COLORS.promotions.pillText} />
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   amount: {
     fontSize: 28,
     fontWeight: '800',
-    color: COLORS.brand.tealDark,
+    color: COLORS.background.base,
     letterSpacing: -0.5,
   },
   myCouponsBtn: {

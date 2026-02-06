@@ -39,11 +39,11 @@ export const THEME = {
 
 export const COLORS = {
   background: {
-    base: '#476968ff', // Tu base original (Sage Green)
-    dark: '#2d403d',   // Verde muy oscuro para estados deshabilitados
+    base: '#242f36ff', // Tu base original (Sage Green)
+    dark: '#111a20ff',   // Verde muy oscuro para estados deshabilitados
     
     // EL CAMBIO CLAVE: De Azul-Gris a Verde-Bosque Transparente
-    glass: 'rgba(20, 40, 35, 0.45)', 
+    glass: 'rgba(20, 28, 40, 0.45)', 
     glassActive: 'rgba(45, 212, 191, 0.08)',
   },
   text: {
@@ -53,7 +53,7 @@ export const COLORS = {
     input: '#e2e8f0',
     placeholder: '#6e8582', // Gris verdoso oscuro
     inverse: '#ffffff',
-    primary: '#1e3b30ff',
+    primary: '#192a37ff',
     secondary: '#5c706a',
     muted: '#8da399',
     light: '#d1fae5',     // Texto claro con tinte menta
@@ -96,6 +96,9 @@ export const COLORS = {
     overlayBorder: 'rgba(255,255,255,0.3)',
   }
 };
+
+
+
 
 export const GRADIENTS = {
   // Orb Superior: Verde Lima / Menta (Luz)

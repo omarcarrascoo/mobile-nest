@@ -70,6 +70,7 @@ export default function FeedUnifiedScreen() {
         <DashboardHeader 
             avatarUrl="https://i.pravatar.cc/150?u=sienna"
             onMenuPress={() => console.log('Menu')}
+            variant="standard"
         />
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 40 }}>

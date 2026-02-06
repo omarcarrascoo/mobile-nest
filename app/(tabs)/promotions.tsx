@@ -19,6 +19,7 @@ import { CategoryPill } from '@/components/promotions/CategoryPill';
 import { HeroDealCard } from '@/components/promotions/HeroDealCard';
 import { RegularDealCard } from '@/components/promotions/RegularDealCard';
 import { PromoCategory, PromoDeal } from '@/types/promotions';
+import { DashboardHeader } from '@/components/ui/DashboardHeader';
 
 // --- MOCK DATA ---
 const CATEGORIES: PromoCategory[] = [
@@ -70,15 +71,12 @@ export default function PromotionsScreen() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.ui.white} />
       <SafeAreaView style={{ flex: 1 }}>
-        
-        {/* Header simple (o sustituir con tu DashboardHeader global) */}
-        <View style={styles.header}>
-            <Text style={styles.headerTitle}>Beneficios</Text>
-            <TouchableOpacity style={styles.locationBtn}>
-                <Feather name="map-pin" size={14} color={COLORS.text.secondary} />
-                <Text style={styles.locationText}>Torre B, Puebla</Text>
-            </TouchableOpacity>
-        </View>
+
+        <DashboardHeader 
+          avatarUrl="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+          onMenuPress={() => console.log('Open Menu')}
+          variant="standard"
+        />
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
           
